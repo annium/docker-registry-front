@@ -7,20 +7,6 @@
 /logs*/
 *.blob
 *.log
-configuration/
-keys/
-/build/
-
-# secrets
-cfg/setup/analysis/*.json
-cfg/shared/keys.yml
 
 # OS & misc
 .DS_STORE
-
-# xs ignore patterns
-.xs.ignore
-.xs.credentials
-nuget.config
-lcov.info
-.npmrc
