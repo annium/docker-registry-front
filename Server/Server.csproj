@@ -11,4 +11,8 @@
         <IsPackable>false</IsPackable>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="SimpleBase" Version="4.0.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.0" />
+    </ItemGroup>
 </Project>

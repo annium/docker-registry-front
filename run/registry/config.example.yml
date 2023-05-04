@@ -12,21 +12,18 @@ storage:
     enabled: true
 http:
   addr: :5000
-  tls:
-    certificate: /certs/cert.crt
-    key: /certs/cert.key
   headers:
     X-Content-Type-Options: [nosniff]
 auth:
   token:
-    realm: https://example-registry.com/v2/token
-    service: example-registry.com
-    issuer: example-registry.com
-    rootcertbundle: /certs/cert.crt
+    realm: http://localhost:8771/v2/token
+    service: registry.service
+    issuer: registry.issuer
+    rootcertbundle: /keys/cert.pem
 notifications:
   endpoints:
     - name: front
-      url: https://example-registry.com/v2/webhooks/events
+      url: http://localhost:8771/v2/webhooks/events
       timeout: 2s
       threshold: 5
       backoff: 1s

@@ -6,9 +6,9 @@ services:
     image: registry:2
     volumes:
       - ./run/registry/config.yml:/etc/docker/registry/config.yml:ro
-      - ./run/registry/init.sh:/etc/docker/registry/init:ro
-      - ./run/certs:/certs:ro
+      - ./run/keys/cert.pem:/keys/cert.pem:ro
       - ./run/registry/data:/registry
+    network_mode: host
   front:
     build:
       context: .
@@ -20,3 +20,4 @@ services:
       - ./docker/server.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - 8760:80
+    network_mode: host
