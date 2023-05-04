@@ -9,7 +9,6 @@
 *.log
 configuration/
 keys/
-/run/
 /build/
 
 # secrets

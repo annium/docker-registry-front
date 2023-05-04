@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  registry:
+    restart: always
+    container_name: registry
+    image: registry:2
+    volumes:
+      - ./run/registry/config.yml:/etc/docker/registry/config.yml:ro
+      - ./run/registry/init.sh:/etc/docker/registry/init:ro
+      - ./run/certs:/certs:ro
+      - ./run/registry/data:/registry
+  front:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    restart: always
+    image: docker-registry-front
+    container_name: front
+    volumes:
+      - ./docker/server.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 8760:80
