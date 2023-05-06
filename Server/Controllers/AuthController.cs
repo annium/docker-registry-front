@@ -14,18 +14,21 @@ public class AuthController : ControllerBase
     private readonly ICredentialsReader _credentialsReader;
     private readonly IScopeReader _scopeReader;
     private readonly ITokenWriter _tokenWriter;
+    private readonly Configuration _config;
 
     public AuthController(
         IAuthService authService,
         ICredentialsReader credentialsReader,
         IScopeReader scopeReader,
-        ITokenWriter tokenWriter
+        ITokenWriter tokenWriter,
+        Configuration config
     )
     {
         _authService = authService;
         _credentialsReader = credentialsReader;
         _scopeReader = scopeReader;
         _tokenWriter = tokenWriter;
+        _config = config;
     }
 
     [HttpGet]
@@ -35,9 +38,18 @@ public class AuthController : ControllerBase
         string scope
     )
     {
+        if (string.IsNullOrWhiteSpace(account))
+            return BadRequest("Account must be specified");
+
+        if (string.IsNullOrWhiteSpace(service) || service != _config.Auth.Service)
+            return BadRequest("Service must be specified and match configured service value");
+
         var credentials = _credentialsReader.Read(Request);
         if (credentials is null)
             return Unauthorized();
+
+        if (account != credentials.Login)
+            return BadRequest("Account must match login in credentials");
 
         var access = new Dictionary<string, RepositoryAction>();
         if (string.IsNullOrWhiteSpace(scope))

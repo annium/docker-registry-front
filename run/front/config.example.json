@@ -1,5 +1,6 @@
 {
   "auth": {
+    "service": "registry.service",
     "issuer": "registry.issuer"
   },
   "users": {

@@ -11,6 +11,7 @@ public sealed record Configuration
 
 public sealed record AuthConfiguration
 {
+    public string Service { get; set; } = string.Empty;
     public string Issuer { get; set; } = string.Empty;
 }
 
