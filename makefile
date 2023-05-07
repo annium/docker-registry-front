@@ -15,4 +15,7 @@ server:
 site:
 	cd Site && dotnet watch run
 
+site-css:
+	cd Site && pnpx tailwindcss -i app.css -o wwwroot/app.css --watch
+
 .PHONY: $(MAKECMDGOALS)

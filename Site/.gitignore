@@ -4,3 +4,6 @@
 
 # packages
 /*.nupkg
+
+# artifacts
+/wwwroot/app.css
