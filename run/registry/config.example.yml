@@ -14,6 +14,9 @@ http:
   addr: :5000
   headers:
     X-Content-Type-Options: [nosniff]
+    Access-Control-Allow-Origin: ['*']
+    Access-Control-Allow-Headers: ['Authorization', 'Accept', 'Cache-Control']
+    Access-Control-Expose-Headers: ['Www-Authenticate']
 auth:
   token:
     realm: http://localhost:8771/v2/token
