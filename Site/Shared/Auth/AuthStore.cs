@@ -25,9 +25,12 @@ public class AuthStore
         return _localStorage.HasKey(CredentialsKey);
     }
 
-    public string? LoadCredentials()
+    public Credentials? LoadCredentials()
     {
-        return _localStorage.TryGetString(CredentialsKey, out var credentials) ? credentials : null;
+        if (!_localStorage.TryGetString(CredentialsKey, out var credentials) || string.IsNullOrWhiteSpace(credentials))
+            return null;
+
+        return _credentialsHelper.Decode(credentials);
     }
 
     public void ClearCredentials()

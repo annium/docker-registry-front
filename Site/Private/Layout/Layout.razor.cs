@@ -11,10 +11,16 @@ public partial class Layout
     [Inject]
     public NavigationManager Navigation { get; set; } = default!;
 
+    private string _user = string.Empty;
+
     protected override void OnInitialized()
     {
-        if (!AuthStore.HasCredentials())
+        var credentials = AuthStore.LoadCredentials();
+
+        if (credentials is null)
             Navigation.NavigateTo(Routes.Login);
+        else
+            _user = credentials.User;
     }
 
     private void Logout()
