@@ -25,10 +25,10 @@ public class ServerApi
     {
         _authStore = authStore;
         _credentialsHelper = credentialsHelper;
-        _serverConfig = new AsyncLazy<ServerConfig>(GetServerHttpClient(httpClientFactory.CreateClient("registry")));
+        _serverConfig = new AsyncLazy<ServerConfig>(GetServerConfig(httpClientFactory.CreateClient("registry")));
     }
 
-    public async Task<Response<string>> LoginAsync(string user, string password)
+    public async Task<bool> LoginAsync(string user, string password)
     {
         var (httpClient, service) = await _serverConfig;
 
@@ -39,14 +39,17 @@ public class ServerApi
             .WithArgument("service", service);
 
         if (!response.IsSuccessStatusCode)
-            return new Response<string>(false, string.Empty);
+            return false;
 
         var responseData = await response.As<LoginResponse>();
 
-        return new Response<string>(true, responseData.Token);
+        _authStore.SaveCredentials(user, password);
+        _authStore.SaveToken(responseData.Token);
+
+        return true;
     }
 
-    private static Func<Task<ServerConfig>> GetServerHttpClient(HttpClient registryHttpClient) => async () =>
+    private static Func<Task<ServerConfig>> GetServerConfig(HttpClient registryHttpClient) => async () =>
     {
         var response = await registryHttpClient.GetAsync("/v2/");
         if (response.StatusCode is not HttpStatusCode.Unauthorized)
@@ -54,12 +57,13 @@ public class ServerApi
 
         var authentication = response.Headers.WwwAuthenticate.Single().Parameter!
             .Split(',')
-            .Select(x => x.Split('=').Select(x => x.Trim('"')).ToArray())
+            .Select(x => x.Split('=').Select(y => y.Trim('"')).ToArray())
             .ToDictionary(x => x[0], x => x[1]);
 
         var realm = new Uri(authentication["realm"]);
         var baseAddress = new Uri(realm.GetLeftPart(UriPartial.Authority));
         var client = new FluentClient(new HttpClient { BaseAddress = baseAddress });
+        client.SetOptions(ignoreHttpErrors: true);
 
         return new ServerConfig(client, authentication["service"]);
     };
