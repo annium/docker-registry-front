@@ -20,9 +20,20 @@ public class AuthStore
         _localStorage = localStorage;
     }
 
+    public bool HasCredentials()
+    {
+        return _localStorage.HasKey(CredentialsKey);
+    }
+
     public string? LoadCredentials()
     {
         return _localStorage.TryGetString(CredentialsKey, out var credentials) ? credentials : null;
+    }
+
+    public void ClearCredentials()
+    {
+        _localStorage.Remove(CredentialsKey);
+        _localStorage.Remove(TokenKey);
     }
 
     public void SaveCredentials(string user, string password)

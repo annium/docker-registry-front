@@ -13,9 +13,13 @@ public partial class Layout
 
     protected override void OnInitialized()
     {
-        var credentials = AuthStore.LoadCredentials();
-
-        if (string.IsNullOrWhiteSpace(credentials))
+        if (!AuthStore.HasCredentials())
             Navigation.NavigateTo(Routes.Login);
+    }
+
+    private void Logout()
+    {
+        AuthStore.ClearCredentials();
+        Navigation.NavigateTo(Routes.Login);
     }
 }

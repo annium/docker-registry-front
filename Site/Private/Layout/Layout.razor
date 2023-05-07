@@ -1,4 +1,13 @@
+@using AntDesign
 @inherits LayoutComponentBase
 
-<div>PRIVATE</div>
-@Body
+<div class="w-full h-full flex flex-col items-stretch justify-start">
+    <div class="flex-1">
+        @Body
+    </div>
+    <div class="flex flex-row items-center justify-stretch">
+        <NavLink href="/demo">demo</NavLink>
+        <div class="flex-1"></div>
+        <Button Icon="@IconType.Outline.Poweroff" OnClick="Logout" />
+    </div>
+</div>

@@ -13,7 +13,6 @@ public partial class Root
 
     protected override void OnInitialized()
     {
-        var credentials = AuthStore.LoadCredentials();
-        Navigation.NavigateTo(string.IsNullOrWhiteSpace(credentials) ? Routes.Login : Routes.Dashboard);
+        Navigation.NavigateTo(AuthStore.HasCredentials() ? Routes.Dashboard : Routes.Login);
     }
 }
