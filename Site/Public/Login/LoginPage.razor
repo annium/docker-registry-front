@@ -1,0 +1,26 @@
+@using AntDesign
+@page "/login"
+
+<div class="h-full flex flex-row items-center justify-center">
+    <Space Direction="@DirectionVHType.Vertical" class="pt-4 px-4 pb-2 rounded-lg bg-gray-100">
+        <SpaceItem>
+            <Input
+                @bind-Value="@User"
+                Placeholder="user"
+                DebounceMilliseconds="0" />
+        </SpaceItem>
+        <SpaceItem>
+            <InputPassword
+                @bind-Value="@Password"
+                Placeholder="password"
+                OnPressEnter="Submit" />
+        </SpaceItem>
+        <SpaceItem>
+            <Button
+                Type="@ButtonType.Primary"
+                OnClick="Submit">
+                Log in
+            </Button>
+        </SpaceItem>
+    </Space>
+</div>
