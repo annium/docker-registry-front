@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Site.Shared.Api.Server;
 using Site.Shared.Auth;
@@ -16,6 +17,11 @@ public static class Services
         services.AddSingleton<ServerApi>();
         services.AddSingleton<AuthStore>();
         services.AddSingleton<LocalStorage>();
+        services.AddHttpClient("registry", (sp, client) =>
+        {
+            var config = sp.GetRequiredService<IConfiguration>();
+            client.BaseAddress = new Uri(config["registry"]!);
+        });
     }
 
     public static void Setup(this IServiceProvider provider)

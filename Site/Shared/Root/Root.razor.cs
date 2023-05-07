@@ -1,18 +1,19 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
+using Site.Shared.Auth;
 
 namespace Site.Shared.Root;
 
 public partial class Root
 {
     [Inject]
-    public IConfiguration Config { get; set; } = default!;
+    public AuthStore AuthStore { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    [Inject]
+    public NavigationManager Navigation { get; set; } = default!;
+
+    protected override void OnInitialized()
     {
-        Console.WriteLine($"Root initialized: {Config["registry"]}");
-        await Task.CompletedTask;
+        var credentials = AuthStore.LoadCredentials();
+        Navigation.NavigateTo(string.IsNullOrWhiteSpace(credentials) ? Routes.Login : Routes.Dashboard);
     }
 }
