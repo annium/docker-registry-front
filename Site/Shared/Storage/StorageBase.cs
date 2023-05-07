@@ -62,7 +62,7 @@ public class StorageBase
 
     public T Get<T>(string key)
     {
-        return JsonSerializer.Deserialize<T>(GetString(key));
+        return JsonSerializer.Deserialize<T>(GetString(key))!;
     }
 
     public string GetString(string key)
