@@ -9,18 +9,21 @@
             <Input
                 @bind-Value="@User"
                 Placeholder="user"
+                Disabled="@_isLoading"
                 DebounceMilliseconds="0" />
         </SpaceItem>
         <SpaceItem>
             <InputPassword
                 @bind-Value="@Password"
                 Placeholder="password"
+                Disabled="@_isLoading"
                 OnPressEnter="Submit" />
         </SpaceItem>
         <SpaceItem>
             <Button
                 Type="@ButtonType.Primary"
-                OnClick="Submit">
+                Loading="@_isLoading"
+                OnClick="@Submit">
                 Log in
             </Button>
         </SpaceItem>
