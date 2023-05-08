@@ -27,7 +27,9 @@ public class Api
     )
     {
         _serverHttpClient = new FluentClient(httpClientFactory.CreateClient("server"));
+        _serverHttpClient.SetOptions(ignoreHttpErrors: true);
         _registryHttpClient = new FluentClient(httpClientFactory.CreateClient("registry"));
+        _registryHttpClient.SetOptions(ignoreHttpErrors: true);
         _authStore = authStore;
         _credentialsHelper = credentialsHelper;
         _service = config["registry:auth:service"] ?? throw new InvalidOperationException("registry service is not set");
@@ -59,13 +61,33 @@ public class Api
         return response.Repositories.Select(x => new Repository(x)).ToArray();
     }
 
-    public async Task<IReadOnlyList<RepositoryTag>> ListTagsAsync(Repository repository)
+    public async Task<IReadOnlyList<RepositoryTag>> ListTagsAsync(string repository)
     {
         var response = await _registryHttpClient
-            .GetAsync($"v2/{repository.Name}/tags/list")
-            .InScope($"repository:{repository.Name}:pull")
+            .GetAsync($"v2/{repository}/tags/list")
+            .InScope($"repository:{repository}:pull")
             .As<TagsResponse>();
+        var responseTags = response.Tags ?? Array.Empty<string>();
 
-        return response.Tags.Select(x => new RepositoryTag(x)).ToArray();
+        var tags = new List<RepositoryTag>(responseTags.Count);
+        foreach (var tag in responseTags)
+        {
+            var tagResponse = await _registryHttpClient
+                .GetAsync($"v2/{repository}/manifests/{tag}")
+                .WithHeader("Accept", "application/vnd.docker.distribution.manifest.v2+json")
+                .InScope($"repository:{repository}:pull");
+            tags.Add(new RepositoryTag(tag, tagResponse.Message.Headers.GetValues("Docker-Content-Digest").Single()));
+        }
+
+        return tags;
+    }
+
+    public async Task<bool> DeleteTagAsync(string repository, string manifest)
+    {
+        var response = await _registryHttpClient
+            .DeleteAsync($"v2/{repository}/manifests/{manifest}")
+            .InScope($"repository:{repository}:push");
+
+        return response.IsSuccessStatusCode;
     }
 }

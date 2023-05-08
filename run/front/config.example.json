@@ -9,7 +9,8 @@
       "repositories": {
         "*": [
           "pull",
-          "push"
+          "push",
+          "delete"
         ]
       }
     }

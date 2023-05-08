@@ -30,6 +30,7 @@ public class AuthMessageHandler : DelegatingHandler
     )
     {
         _serverHttpClient = new FluentClient(httpClientFactory.CreateClient("server"));
+        _serverHttpClient.SetOptions(ignoreHttpErrors: true);
         _authStore = authStore;
         _tokensStore = tokensStore;
         _credentialsHelper = credentialsHelper;

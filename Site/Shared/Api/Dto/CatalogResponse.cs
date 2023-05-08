@@ -11,8 +11,7 @@ public sealed record CatalogResponse(
 public sealed record Repository(string Name);
 
 public sealed record TagsResponse(
-    [property: JsonPropertyName("tags")]
-    IReadOnlyList<string> Tags
+    [property: JsonPropertyName("tags")] IReadOnlyList<string>? Tags
 );
 
-public sealed record RepositoryTag(string Name);
+public sealed record RepositoryTag(string Name, string Digest);

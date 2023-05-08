@@ -28,6 +28,15 @@
             HidePagination>
             <ChildContent Context="tag">
                 <PropertyColumn TItem="RepositoryTag" TProp="string" Title="Tag" Property="@(x => x.Name)" />
+                <PropertyColumn TItem="RepositoryTag" TProp="string" Title="Digest" Property="@(x => x.Digest)" />
+                <ActionColumn>
+                    <Button
+                        Danger
+                        Type="@ButtonType.Primary"
+                        Size="@ButtonSize.Small"
+                        Icon="@IconType.Outline.Delete"
+                        OnClick="@(() => DeleteRepositoryTagAsync(context.Data, tag))" />
+                </ActionColumn>
             </ChildContent>
         </Table>
     </ExpandTemplate>
