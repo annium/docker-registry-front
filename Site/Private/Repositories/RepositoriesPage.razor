@@ -11,8 +11,24 @@
 <Table
     TItem="Repository"
     DataSource="@_repositories"
-    Loading="@_isLoading"
+    Loading="@_isRepositoriesTableLoading"
     Size="TableSize.Small"
+    RowExpandable="@(_ => true)"
+    OnExpand="@LoadRepositoryTagsAsync"
     PageSize="50">
-    <PropertyColumn TItem="Repository" TProp="string" Title="Repository" Property="@(x => x.Name)" />
+    <ChildContent>
+        <PropertyColumn TItem="Repository" TProp="string" Title="Repository" Property="@(x => x.Name)" />
+    </ChildContent>
+    <ExpandTemplate>
+        <Table
+            TItem="RepositoryTag"
+            DataSource="@GetRepositoryTags(context.Data)"
+            Loading="@_isTagsTableLoading"
+            Size="TableSize.Small"
+            HidePagination>
+            <ChildContent Context="tag">
+                <PropertyColumn TItem="RepositoryTag" TProp="string" Title="Tag" Property="@(x => x.Name)" />
+            </ChildContent>
+        </Table>
+    </ExpandTemplate>
 </Table>

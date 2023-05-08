@@ -51,11 +51,21 @@ public class Api
 
     public async Task<IReadOnlyList<Repository>> GetCatalogAsync()
     {
-        var catalog = await _registryHttpClient
+        var response = await _registryHttpClient
             .GetAsync("v2/_catalog")
             .InScope("registry:catalog:*")
-            .As<Catalog>();
+            .As<CatalogResponse>();
 
-        return catalog.Repositories.Select(x => new Repository(x)).ToArray();
+        return response.Repositories.Select(x => new Repository(x)).ToArray();
+    }
+
+    public async Task<IReadOnlyList<RepositoryTag>> ListTagsAsync(Repository repository)
+    {
+        var response = await _registryHttpClient
+            .GetAsync($"v2/{repository.Name}/tags/list")
+            .InScope($"repository:{repository.Name}:pull")
+            .As<TagsResponse>();
+
+        return response.Tags.Select(x => new RepositoryTag(x)).ToArray();
     }
 }
