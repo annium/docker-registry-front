@@ -1,7 +1,24 @@
+using System.Collections.Immutable;
+
 namespace Server.Models;
 
-public static class ScopeAction
+public sealed record ScopeAction
 {
-    public const string Push = "push";
-    public const string Pull = "pull";
+    public static bool IsKnown(ScopeAction action) => KnownActions.Contains(action);
+    public static readonly ScopeAction Push = new("push");
+    public static readonly ScopeAction Pull = new("pull");
+    public static readonly ScopeAction Any = new("*");
+    private static readonly ImmutableArray<ScopeAction> KnownActions = ImmutableArray.Create(Push, Pull, Any);
+
+    private readonly string _name;
+
+    private ScopeAction(string name)
+    {
+        _name = name;
+    }
+
+    public override string ToString() => _name;
+
+    public static implicit operator string(ScopeAction type) => type._name;
+    public static implicit operator ScopeAction(string type) => new(type);
 }

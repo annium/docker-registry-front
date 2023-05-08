@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Server.Models;
@@ -27,19 +28,15 @@ internal class ScopeReader : IScopeReader
             if (parts.Length != 3)
                 return null;
 
-            var repository = parts[1];
-            var action = RepositoryAction.None;
+            var type = parts[0];
+            var name = parts[1];
+            var actions = new List<ScopeAction>();
 
-            foreach (var scopeAction in parts[2].Split(','))
-            {
-                if (scopeAction == ScopeAction.Push)
-                    action |= RepositoryAction.Write;
+            foreach (ScopeAction scopeAction in parts[2].Split(','))
+                if (ScopeAction.IsKnown(scopeAction))
+                    actions.Add(scopeAction);
 
-                if (scopeAction == ScopeAction.Pull)
-                    action |= RepositoryAction.Read;
-            }
-
-            return new AccessScope(repository, action);
+            return new AccessScope(type, name, actions);
         }
         catch (Exception e)
         {

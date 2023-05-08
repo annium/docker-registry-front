@@ -17,7 +17,7 @@ public interface ITokenWriter
     public string WriteToken(
         string service,
         string account,
-        Dictionary<string, RepositoryAction> access
+        IReadOnlyCollection<AccessScope> accesses
     );
 }
 
@@ -35,24 +35,20 @@ internal class TokenWriter : ITokenWriter
     public string WriteToken(
         string service,
         string account,
-        Dictionary<string, RepositoryAction> access
+        IReadOnlyCollection<AccessScope> accesses
     )
     {
         var now = DateTime.UtcNow;
-        var expires = now + TimeSpan.FromMinutes(1);
+        var expires = now + TimeSpan.FromSeconds(60);
 
         var header = new JwtHeader(new SigningCredentials(_signingKey, SecurityAlgorithms.RsaSha256));
 
-        var accesses = access
+        var accessesList = accesses
             .Select(x => new
             {
-                type = "repository",
-                name = x.Key,
-                actions = x.Value.HasFlag(RepositoryAction.Write)
-                    ? new[] { ScopeAction.Push, ScopeAction.Pull }
-                    : x.Value.HasFlag(RepositoryAction.Read)
-                        ? new[] { ScopeAction.Pull }
-                        : Array.Empty<string>()
+                type = x.Type,
+                name = x.Name,
+                actions = x.Actions.ToArray()
             })
             .ToArray();
 
@@ -60,7 +56,7 @@ internal class TokenWriter : ITokenWriter
         {
             new("sub", account),
             new("jti", Guid.NewGuid().ToString()),
-            new("access", JsonSerializer.Serialize(accesses), JsonClaimValueTypes.JsonArray),
+            new("access", JsonSerializer.Serialize(accessesList), JsonClaimValueTypes.JsonArray),
         };
 
         var payload = new JwtPayload(_config.Auth.Issuer, service, claims, now, expires);

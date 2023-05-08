@@ -51,7 +51,7 @@ public class AuthController : ControllerBase
         if (account != credentials.Login)
             return BadRequest("Account must match login in credentials");
 
-        var access = new Dictionary<string, RepositoryAction>();
+        var accesses = new List<AccessScope>();
         if (string.IsNullOrWhiteSpace(scope))
         {
             if (!_authService.Login(credentials.Login, credentials.Password))
@@ -63,11 +63,11 @@ public class AuthController : ControllerBase
             if (accessScope is null)
                 return BadRequest();
 
-            var allowedAction = _authService.GetAccess(credentials.Login, credentials.Password, accessScope.Repository, accessScope.Action);
-            access.Add(accessScope.Repository, allowedAction);
+            var allowedActions = _authService.GetAllowedActions(credentials.Login, credentials.Password, accessScope);
+            accesses.Add(accessScope with { Actions = allowedActions });
         }
 
-        var token = _tokenWriter.WriteToken(service, account, access);
+        var token = _tokenWriter.WriteToken(service, account, accesses);
 
         return Ok(new { access_token = token, token });
     }

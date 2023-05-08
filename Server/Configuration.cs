@@ -18,5 +18,5 @@ public sealed record AuthConfiguration
 public sealed record UserConfiguration
 {
     public string Password { get; set; } = string.Empty;
-    public Dictionary<string, RepositoryAction> Repositories { get; set; } = new();
+    public Dictionary<string, string[]> Repositories { get; set; } = new();
 }
