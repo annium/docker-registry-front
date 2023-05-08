@@ -46,9 +46,9 @@ internal class TokenWriter : ITokenWriter
         var accessesList = accesses
             .Select(x => new
             {
-                type = x.Type,
-                name = x.Name,
-                actions = x.Actions.ToArray()
+                type = x.Type.ToString(),
+                name = x.Name.ToString(),
+                actions = x.Actions.Select(y => y.ToString()).ToArray()
             })
             .ToArray();
 
