@@ -14,19 +14,16 @@ http:
   addr: :5000
   headers:
     X-Content-Type-Options: [nosniff]
-    Access-Control-Allow-Origin: ['*']
-    Access-Control-Allow-Headers: ['Authorization', 'Accept', 'Cache-Control']
-    Access-Control-Expose-Headers: ['Www-Authenticate']
 auth:
   token:
-    realm: http://localhost:8771/v2/token
+    realm: http://localhost:8700/v2/token
     service: registry.service
     issuer: registry.issuer
     rootcertbundle: /keys/cert.pem
 notifications:
   endpoints:
     - name: front
-      url: http://localhost:8771/v2/webhooks/events
+      url: http://localhost:8700/v2/webhooks/events
       timeout: 2s
       threshold: 5
       backoff: 1s

@@ -8,7 +8,7 @@ builder.Services.Register();
 builder.WebHost.UseKestrel(server =>
 {
     server.AddServerHeader = false;
-    server.ListenAnyIP(8771);
+    server.ListenAnyIP(5002);
 });
 
 var app = builder.Build();
