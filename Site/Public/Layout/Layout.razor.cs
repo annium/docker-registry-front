@@ -14,6 +14,6 @@ public partial class Layout
     protected override void OnInitialized()
     {
         if (AuthStore.HasCredentials())
-            Navigation.NavigateTo(Routes.Dashboard);
+            Navigation.NavigateTo(Routes.Repositories);
     }
 }

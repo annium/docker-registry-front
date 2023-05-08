@@ -1,3 +1,4 @@
+using System;
 using Site.Shared.Helpers;
 using Site.Shared.Storage;
 
@@ -25,7 +26,7 @@ public class AuthStore
         return _localStorage.HasKey(CredentialsKey);
     }
 
-    public Credentials? LoadCredentials()
+    public Credentials? TryLoadCredentials()
     {
         if (!_localStorage.TryGetString(CredentialsKey, out var credentials) || string.IsNullOrWhiteSpace(credentials))
             return null;
@@ -46,9 +47,12 @@ public class AuthStore
         _localStorage.SetString(CredentialsKey, credentials);
     }
 
-    public string? LoadToken()
+    public string LoadToken()
     {
-        return _localStorage.TryGetString(TokenKey, out var credentials) ? credentials : null;
+        if (!_localStorage.TryGetString(TokenKey, out var token) || string.IsNullOrWhiteSpace(token))
+            throw new InvalidOperationException("Token missing in storage");
+
+        return token;
     }
 
     public void SaveToken(string token)

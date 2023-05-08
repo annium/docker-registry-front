@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
 using Pathoschild.Http.Client;
+using Site.Shared.Api.Registry;
 using Site.Shared.Auth;
 using Site.Shared.Helpers;
 
@@ -55,17 +56,11 @@ public class ServerApi
         if (response.StatusCode is not HttpStatusCode.Unauthorized)
             throw new InvalidOperationException($"Registry is expected to return {HttpStatusCode.Unauthorized} with auth scheme and server");
 
-        var authentication = response.Headers.WwwAuthenticate.Single().Parameter!
-            .Split(',')
-            .Select(x => x.Split('=').Select(y => y.Trim('"')).ToArray())
-            .ToDictionary(x => x[0], x => x[1]);
-
-        var realm = new Uri(authentication["realm"]);
-        var baseAddress = new Uri(realm.GetLeftPart(UriPartial.Authority));
-        var client = new FluentClient(new HttpClient { BaseAddress = baseAddress });
+        var (server, service, _) = RegistryAuthenticationHelper.Parse(response.Headers);
+        var client = new FluentClient(new HttpClient { BaseAddress = server });
         client.SetOptions(ignoreHttpErrors: true);
 
-        return new ServerConfig(client, authentication["service"]);
+        return new ServerConfig(client, service);
     };
 
     private record ServerConfig(FluentClient Client, string Service);

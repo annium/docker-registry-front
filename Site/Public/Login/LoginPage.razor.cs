@@ -31,7 +31,7 @@ public partial class LoginPage
         StateHasChanged();
 
         if (result)
-            Navigation.NavigateTo(Routes.Dashboard);
+            Navigation.NavigateTo(Routes.Repositories);
         else
             await Message.Error("Incorrect login os password", 1);
     }

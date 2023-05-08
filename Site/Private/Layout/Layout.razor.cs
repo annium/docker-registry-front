@@ -15,7 +15,7 @@ public partial class Layout
 
     protected override void OnInitialized()
     {
-        var credentials = AuthStore.LoadCredentials();
+        var credentials = AuthStore.TryLoadCredentials();
 
         if (credentials is null)
             Navigation.NavigateTo(Routes.Login);
