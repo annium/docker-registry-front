@@ -2,6 +2,7 @@ configure:
 	# run - front
 	cp run/front/config.example.json run/front/config.json
 	cp run/keys/key.pem run/front/
+	cp run/front/appsettings.example.json run/front/appsettings.json
 	# debug - front
 	cp run/front/config.example.json Server/config.json
 	cp run/keys/key.pem Server

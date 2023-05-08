@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Site.Shared.Api;
 using Site.Shared.Auth;
@@ -19,13 +19,13 @@ public static class Services
         services.AddSingleton<Api>();
         services.AddHttpClient("server", (sp, client) =>
         {
-            var config = sp.GetRequiredService<IConfiguration>();
-            client.BaseAddress = new Uri(config["registry:uri"]!);
+            var env = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
+            client.BaseAddress = new Uri(env.BaseAddress);
         });
         services.AddHttpClient("registry", (sp, client) =>
             {
-                var config = sp.GetRequiredService<IConfiguration>();
-                client.BaseAddress = new Uri(config["registry:uri"]!);
+                var env = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
+                client.BaseAddress = new Uri(env.BaseAddress);
             })
             .AddHttpMessageHandler<AuthMessageHandler>();
         services.AddSingleton<AuthMessageHandler>();
