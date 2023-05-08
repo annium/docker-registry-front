@@ -1,16 +1,16 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Site.Shared.Api.Registry;
+using Site.Shared.Api;
 
 namespace Site.Private.Repositories;
 
 public partial class RepositoriesPage
 {
     [Inject]
-    private RegistryApi RegistryApi { get; set; } = default!;
+    private Api Api { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        await RegistryApi.ListRepositoriesAsync();
+        await Api.ListRepositoriesAsync();
     }
 }

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using AntDesign;
 using Microsoft.AspNetCore.Components;
-using Site.Shared.Api.Server;
+using Site.Shared.Api;
 
 namespace Site.Public.Login;
 
@@ -14,7 +14,7 @@ public partial class LoginPage
     private IMessageService Message { get; set; } = default!;
 
     [Inject]
-    private ServerApi ServerApi { get; set; } = default!;
+    private Api Api { get; set; } = default!;
 
     private string User { get; set; } = string.Empty;
     private string Password { get; set; } = string.Empty;
@@ -25,7 +25,7 @@ public partial class LoginPage
         _isLoading = true;
         StateHasChanged();
 
-        var result = await ServerApi.LoginAsync(User, Password);
+        var result = await Api.LoginAsync(User, Password);
 
         _isLoading = false;
         StateHasChanged();
