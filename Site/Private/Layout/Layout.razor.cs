@@ -9,6 +9,9 @@ public partial class Layout
     public AuthStore AuthStore { get; set; } = default!;
 
     [Inject]
+    public TokensStore TokensStore { get; set; } = default!;
+
+    [Inject]
     public NavigationManager Navigation { get; set; } = default!;
 
     private string _user = string.Empty;
@@ -26,6 +29,7 @@ public partial class Layout
     private void Logout()
     {
         AuthStore.ClearCredentials();
+        TokensStore.Clear();
         Navigation.NavigateTo(Routes.Login);
     }
 }

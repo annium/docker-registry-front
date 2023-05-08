@@ -49,6 +49,7 @@ public class Api
     public async Task ListRepositoriesAsync()
     {
         await _registryHttpClient
-            .GetAsync("v2/_catalog");
+            .GetAsync("v2/_catalog")
+            .InScope("registry:catalog:*");
     }
 }

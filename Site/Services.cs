@@ -32,6 +32,7 @@ public static class Services
 
         // shared - auth
         services.AddSingleton<AuthStore>();
+        services.AddSingleton<TokensStore>();
 
         // shared - storage
         services.AddSingleton<CredentialsHelper>();
