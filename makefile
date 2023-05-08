@@ -1,6 +1,11 @@
 configure:
+	# run - front
 	cp run/front/config.example.json run/front/config.json
 	cp run/keys/key.pem run/front/
+	# debug - front
+	cp run/front/config.example.json Server/config.json
+	cp run/keys/key.pem Server
+	# run - registry
 	cp run/registry/config.example.yml run/registry/config.yml
 	cp run/keys/cert.pem run/registry/
 
@@ -9,8 +14,7 @@ keys:
 	openssl req -new -x509 -key run/keys/key.pem -out run/keys/cert.pem -days 360
 
 server:
-	dotnet build Server/Server.csproj
-	cd run/front && ../../Server/bin/Debug/net7.0/Server
+	cd Server && dotnet watch run
 
 site:
 	cd Site && dotnet watch run

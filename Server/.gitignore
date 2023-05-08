@@ -4,3 +4,7 @@
 
 # packages
 /*.nupkg
+
+# artifacts
+/config.json
+/key.pem
