@@ -1,5 +1,6 @@
 @page "/repositories"
 @using AntDesign
+@using Site.Shared.Api.Dto
 @using Layout = Site.Private.Layout.Layout
 @namespace Site.Private.Repositories
 @layout Layout
@@ -7,3 +8,11 @@
 <PageHeader>
     <PageHeaderTitle>Repositories</PageHeaderTitle>
 </PageHeader>
+<Table
+    TItem="Repository"
+    DataSource="@_repositories"
+    Loading="@_isLoading"
+    Size="TableSize.Small"
+    PageSize="50">
+    <PropertyColumn TItem="Repository" TProp="string" Title="Repository" Property="@(x => x.Name)" />
+</Table>

@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Pathoschild.Http.Client;
+using Site.Shared.Api.Dto;
 using Site.Shared.Auth;
 using Site.Shared.Helpers;
 
@@ -46,10 +49,13 @@ public class Api
         return true;
     }
 
-    public async Task ListRepositoriesAsync()
+    public async Task<IReadOnlyList<Repository>> GetCatalogAsync()
     {
-        await _registryHttpClient
+        var catalog = await _registryHttpClient
             .GetAsync("v2/_catalog")
-            .InScope("registry:catalog:*");
+            .InScope("registry:catalog:*")
+            .As<Catalog>();
+
+        return catalog.Repositories.Select(x => new Repository(x)).ToArray();
     }
 }
