@@ -5,6 +5,7 @@ configure:
 	# debug - front
 	cp run/front/config.example.json Server/config.json
 	cp run/keys/key.pem Server
+	cp run/front/appsettings.example.json Site/wwwroot/appsettings.json
 	# run - registry
 	cp run/registry/config.example.yml run/registry/config.yml
 	cp run/keys/cert.pem run/registry/
