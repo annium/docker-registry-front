@@ -22,4 +22,18 @@ site:
 site-css:
 	cd Site && npx tailwindcss -i app.css -o wwwroot/app.css --watch
 
+publish: publish-server publish-site
+
+publish-server: build-server
+	docker push annium/docker-registry-server
+
+publish-site: build-site
+	docker push annium/docker-registry-site
+
+build-server:
+	docker build -t annium/docker-registry-server -f Server/app.dockerfile Server
+
+build-site:
+	docker build -t annium/docker-registry-site -f Site/app.dockerfile Site
+
 .PHONY: $(MAKECMDGOALS)
