@@ -6,8 +6,8 @@ configure:
 	cp run/server/config.example.json Server/config.json
 	cp run/keys/key.pem Server/key.pem
 	# site
-	cp run/site/appsettings.example.json run/site/appsettings.json
-	cp run/site/appsettings.example.json Site/wwwroot/appsettings.json
+	cp run/site/config.example.json run/site/config.json
+	cp run/site/config.example.json Site/wwwroot/config.json
 
 keys:
 	openssl genrsa -out run/keys/key.pem 4096

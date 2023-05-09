@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Pathoschild.Http.Client;
 using Site.Shared.Api.Dto;
 using Site.Shared.Auth;
@@ -23,7 +22,7 @@ public class Api
         IHttpClientFactory httpClientFactory,
         AuthStore authStore,
         CredentialsHelper credentialsHelper,
-        IConfiguration config
+        Configuration config
     )
     {
         _serverHttpClient = new FluentClient(httpClientFactory.CreateClient("server"));
@@ -32,7 +31,7 @@ public class Api
         _registryHttpClient.SetOptions(ignoreHttpErrors: true);
         _authStore = authStore;
         _credentialsHelper = credentialsHelper;
-        _service = config["registry:auth:service"] ?? throw new InvalidOperationException("registry service is not set");
+        _service = config.Registry.Auth.Service;
     }
 
     public async Task<bool> LoginAsync(string user, string password)

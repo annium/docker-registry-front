@@ -1,4 +1,7 @@
 using System;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Site.Shared.Api;
@@ -10,6 +13,14 @@ namespace Site;
 
 public static class Services
 {
+    public static async Task Configure(this WebAssemblyHostBuilder builder)
+    {
+        var http = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+        var config = await http.GetFromJsonAsync<Configuration>("config.json")
+            ?? throw new InvalidOperationException("Failed to load config.json");
+        builder.Services.AddSingleton(config);
+    }
+
     public static void Register(this IServiceCollection services)
     {
         services.AddLogging();

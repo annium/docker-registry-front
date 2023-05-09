@@ -1,11 +1,9 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Pathoschild.Http.Client;
 using Site.Shared.Api.Dto;
 using Site.Shared.Auth;
@@ -26,7 +24,7 @@ public class AuthMessageHandler : DelegatingHandler
         AuthStore authStore,
         TokensStore tokensStore,
         CredentialsHelper credentialsHelper,
-        IConfiguration config
+        Configuration config
     )
     {
         _serverHttpClient = new FluentClient(httpClientFactory.CreateClient("server"));
@@ -34,7 +32,7 @@ public class AuthMessageHandler : DelegatingHandler
         _authStore = authStore;
         _tokensStore = tokensStore;
         _credentialsHelper = credentialsHelper;
-        _service = config["registry:auth:service"] ?? throw new InvalidOperationException("registry service is not set");
+        _service = config.Registry.Auth.Service;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
