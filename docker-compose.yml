@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # production setup
   registry:
     restart: always
     container_name: docker_registry
@@ -8,9 +9,50 @@ services:
       - ./run/registry/config.yml:/etc/docker/registry/config.yml:ro
       - ./run/keys/cert.pem:/keys/cert.pem:ro
       - ./run/registry/data:/registry
+  server:
+    build:
+      context: Server
+      dockerfile: app.dockerfile
+    restart: always
+    image: docker-registry-server
+    container_name: docker_registry_server
+    volumes:
+      - ../front/config.json:/server/config.json:ro
+      - ../front/key.pem:/server/key.pem:ro
+      - ../front/appsettings.json:/usr/share/nginx/html/appsettings.json:ro
+      - ../docker/nginx_parts:/etc/nginx/conf.d/parts:ro
+      - ../docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../docker/run.sh:/run.sh:ro
+    ports:
+      - 8700:80
+  site:
+    build:
+      context: Site
+      dockerfile: app.dockerfile
+    restart: always
+    image: docker-registry-site
+    container_name: docker_registry_site
+    volumes:
+      - ../front/config.json:/server/config.json:ro
+      - ../front/key.pem:/server/key.pem:ro
+      - ../front/appsettings.json:/usr/share/nginx/html/appsettings.json:ro
+      - ../docker/nginx_parts:/etc/nginx/conf.d/parts:ro
+      - ../docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../docker/run.sh:/run.sh:ro
+    ports:
+      - 8700:80
+  # development setup
+  dev-registry:
+    restart: always
+    container_name: docker_registry
+    image: registry:2
+    volumes:
+      - ./run/registry/config.yml:/etc/docker/registry/config.yml:ro
+      - ./run/keys/cert.pem:/keys/cert.pem:ro
+      - ./run/registry/data:/registry
     network_mode: host
-  proxy:
-    container_name: docker_proxy
+  dev-proxy:
+    container_name: docker_registry_proxy
     image: 'nginx:alpine'
     restart: always
     volumes:

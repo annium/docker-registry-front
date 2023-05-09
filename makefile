@@ -1,15 +1,13 @@
 configure:
-	# run - front
-	cp run/front/config.example.json run/front/config.json
-	cp run/keys/key.pem run/front/
-	cp run/front/appsettings.example.json run/front/appsettings.json
-	# debug - front
-	cp run/front/config.example.json Server/config.json
-	cp run/keys/key.pem Server
-	cp run/front/appsettings.example.json Site/wwwroot/appsettings.json
-	# run - registry
+	# registry
 	cp run/registry/config.example.yml run/registry/config.yml
-	cp run/keys/cert.pem run/registry/
+	# server
+	cp run/server/config.example.json run/server/config.json
+	cp run/server/config.example.json Server/config.json
+	cp run/keys/key.pem Server/key.pem
+	# site
+	cp run/site/appsettings.example.json run/site/appsettings.json
+	cp run/site/appsettings.example.json Site/wwwroot/appsettings.json
 
 keys:
 	openssl genrsa -out run/keys/key.pem 4096
@@ -22,6 +20,6 @@ site:
 	cd Site && dotnet watch run
 
 site-css:
-	cd Site && pnpx tailwindcss -i app.css -o wwwroot/app.css --watch
+	cd Site && npx tailwindcss -i app.css -o wwwroot/app.css --watch
 
 .PHONY: $(MAKECMDGOALS)
