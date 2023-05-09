@@ -1,0 +1,5 @@
+/bin/
+/obj/
+/docker/proxy.conf
+/wwwroot/app.css
+/wwwroot/config.json

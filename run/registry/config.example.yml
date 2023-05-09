@@ -18,13 +18,6 @@ auth:
     service: registry.service
     issuer: registry.issuer
     rootcertbundle: /keys/cert.pem
-notifications:
-  endpoints:
-    - name: front
-      url: http://localhost:8700/v2/webhooks/events
-      timeout: 2s
-      threshold: 5
-      backoff: 1s
 health:
   storagedriver:
     enabled: true
