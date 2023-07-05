@@ -4,6 +4,7 @@ configure:
 	# server
 	cp run/server/config.example.json run/server/config.json
 	cp run/server/config.example.json Server/config.json
+	cp run/keys/key.pem run/server/key.pem
 	cp run/keys/key.pem Server/key.pem
 	# site
 	cp run/site/config.example.json run/site/config.json
