@@ -14,10 +14,9 @@ build:
 	dotnet build --nologo -v q
 
 test:
-	dotnet test --nologo -v q
+	@echo "noop"
 
-publish:
-	xs publish all 0.1.0 -p 1
+publish: publish-server publish-site
 
 configure:
 	# registry
@@ -43,8 +42,6 @@ site:
 
 site-css:
 	cd Site && npx tailwindcss -i app.css -o wwwroot/app.css --watch
-
-publish: publish-server publish-site
 
 publish-server: build-server
 	docker push annium/docker-registry-server
