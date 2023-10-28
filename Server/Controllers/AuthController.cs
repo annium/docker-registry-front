@@ -32,11 +32,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetToken(
-        string account,
-        string service,
-        string scope
-    )
+    public IActionResult GetToken(string account, string service, string scope)
     {
         if (string.IsNullOrWhiteSpace(account))
             return BadRequest("Account must be specified");

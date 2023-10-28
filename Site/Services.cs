@@ -16,7 +16,8 @@ public static class Services
     public static async Task Configure(this WebAssemblyHostBuilder builder)
     {
         var http = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-        var config = await http.GetFromJsonAsync<Configuration>("config.json")
+        var config =
+            await http.GetFromJsonAsync<Configuration>("config.json")
             ?? throw new InvalidOperationException("Failed to load config.json");
         builder.Services.AddSingleton(config);
     }
@@ -28,16 +29,23 @@ public static class Services
 
         // shared - api
         services.AddSingleton<Api>();
-        services.AddHttpClient("server", (sp, client) =>
-        {
-            var env = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
-            client.BaseAddress = new Uri(env.BaseAddress);
-        });
-        services.AddHttpClient("registry", (sp, client) =>
+        services.AddHttpClient(
+            "server",
+            (sp, client) =>
             {
                 var env = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
                 client.BaseAddress = new Uri(env.BaseAddress);
-            })
+            }
+        );
+        services
+            .AddHttpClient(
+                "registry",
+                (sp, client) =>
+                {
+                    var env = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
+                    client.BaseAddress = new Uri(env.BaseAddress);
+                }
+            )
             .AddHttpMessageHandler<AuthMessageHandler>();
         services.AddSingleton<AuthMessageHandler>();
 
@@ -48,11 +56,9 @@ public static class Services
         // shared - storage
         services.AddSingleton<CredentialsHelper>();
 
-        // shared - storage 
+        // shared - storage
         services.AddSingleton<LocalStorage>();
     }
 
-    public static void Setup(this IServiceProvider provider)
-    {
-    }
+    public static void Setup(this IServiceProvider provider) { }
 }

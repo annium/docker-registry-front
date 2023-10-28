@@ -29,7 +29,11 @@ internal class CredentialsReader : ICredentialsReader
                 return null;
 
             var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(authorization[1])).Split(':');
-            if (credentials.Length != 2 || string.IsNullOrWhiteSpace(credentials[0]) || string.IsNullOrWhiteSpace(credentials[1]))
+            if (
+                credentials.Length != 2
+                || string.IsNullOrWhiteSpace(credentials[0])
+                || string.IsNullOrWhiteSpace(credentials[1])
+            )
                 return null;
 
             return new Credentials(credentials[0], credentials[1]);

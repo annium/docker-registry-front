@@ -15,5 +15,6 @@ public sealed record ScopeType
     public override string ToString() => _name;
 
     public static implicit operator string(ScopeType type) => type._name;
+
     public static implicit operator ScopeType(string type) => new(type);
 }

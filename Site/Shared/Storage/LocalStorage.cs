@@ -4,7 +4,6 @@ namespace Site.Shared.Storage;
 
 public class LocalStorage : StorageBase
 {
-    public LocalStorage(IJSRuntime js) : base(js, "localStorage")
-    {
-    }
+    public LocalStorage(IJSRuntime js)
+        : base(js, "localStorage") { }
 }

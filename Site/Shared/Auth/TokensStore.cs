@@ -10,9 +10,7 @@ public class TokensStore
     private readonly Dictionary<string, string> _tokens;
     private readonly LocalStorage _localStorage;
 
-    public TokensStore(
-        LocalStorage localStorage
-    )
+    public TokensStore(LocalStorage localStorage)
     {
         _localStorage = localStorage;
         var keys = GetKeys();
@@ -37,7 +35,8 @@ public class TokensStore
 
     private IReadOnlyCollection<string> GetKeys()
     {
-        return _localStorage.GetKeys()
+        return _localStorage
+            .GetKeys()
             .Where(x => x.StartsWith(TokenKeyPrefix))
             .Select(x => x[TokenKeyPrefix.Length..])
             .ToArray();

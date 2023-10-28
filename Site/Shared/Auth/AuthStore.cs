@@ -10,10 +10,7 @@ public class AuthStore
     private readonly CredentialsHelper _credentialsHelper;
     private readonly LocalStorage _localStorage;
 
-    public AuthStore(
-        CredentialsHelper credentialsHelper,
-        LocalStorage localStorage
-    )
+    public AuthStore(CredentialsHelper credentialsHelper, LocalStorage localStorage)
     {
         _credentialsHelper = credentialsHelper;
         _localStorage = localStorage;

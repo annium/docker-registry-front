@@ -48,7 +48,12 @@ public partial class RepositoriesPage
 
     private async Task DeleteRepositoryTagAsync(Repository repository, RepositoryTag tag)
     {
-        var answer = await Confirm.Show("Operation is irreversible.", $"Delete image {repository.Name}:{tag.Name}?", ConfirmButtons.YesNo, ConfirmIcon.Warning);
+        var answer = await Confirm.Show(
+            "Operation is irreversible.",
+            $"Delete image {repository.Name}:{tag.Name}?",
+            ConfirmButtons.YesNo,
+            ConfirmIcon.Warning
+        );
         if (answer is not ConfirmResult.Yes)
             return;
 

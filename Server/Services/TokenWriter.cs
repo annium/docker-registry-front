@@ -14,11 +14,7 @@ namespace Server.Services;
 
 public interface ITokenWriter
 {
-    public string WriteToken(
-        string service,
-        string account,
-        IReadOnlyCollection<AccessScope> accesses
-    );
+    public string WriteToken(string service, string account, IReadOnlyCollection<AccessScope> accesses);
 }
 
 internal class TokenWriter : ITokenWriter
@@ -32,11 +28,7 @@ internal class TokenWriter : ITokenWriter
         _signingKey = ReadSigningKey();
     }
 
-    public string WriteToken(
-        string service,
-        string account,
-        IReadOnlyCollection<AccessScope> accesses
-    )
+    public string WriteToken(string service, string account, IReadOnlyCollection<AccessScope> accesses)
     {
         var now = DateTime.UtcNow;
         var expires = now + TimeSpan.FromSeconds(60);
@@ -44,12 +36,15 @@ internal class TokenWriter : ITokenWriter
         var header = new JwtHeader(new SigningCredentials(_signingKey, SecurityAlgorithms.RsaSha256));
 
         var accessesList = accesses
-            .Select(x => new
-            {
-                type = x.Type.ToString(),
-                name = x.Name.ToString(),
-                actions = x.Actions.Select(y => y.ToString()).ToArray()
-            })
+            .Select(
+                x =>
+                    new
+                    {
+                        type = x.Type.ToString(),
+                        name = x.Name.ToString(),
+                        actions = x.Actions.Select(y => y.ToString()).ToArray()
+                    }
+            )
             .ToArray();
 
         var claims = new List<Claim>
@@ -75,10 +70,7 @@ internal class TokenWriter : ITokenWriter
         var rsa = RSA.Create();
         rsa.ImportFromPem(raw.ToCharArray());
 
-        return new RsaSecurityKey(rsa)
-        {
-            KeyId = GetKid(rsa)
-        };
+        return new RsaSecurityKey(rsa) { KeyId = GetKid(rsa) };
 
         static string GetKid(RSA rsa)
         {

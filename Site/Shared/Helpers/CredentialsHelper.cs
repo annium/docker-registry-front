@@ -8,7 +8,8 @@ public class CredentialsHelper
 {
     public string AuthScheme => "Basic";
 
-    public string Encode(string user, string password) => Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{password}"));
+    public string Encode(string user, string password) =>
+        Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{password}"));
 
     public Credentials Decode(string credentials)
     {

@@ -5,6 +5,7 @@ namespace Server.Models;
 public sealed record ScopeAction
 {
     public static bool IsKnown(ScopeAction action) => KnownActions.Contains(action);
+
     public static readonly ScopeAction Push = new("push");
     public static readonly ScopeAction Pull = new("pull");
     public static readonly ScopeAction Delete = new("delete");
@@ -21,5 +22,6 @@ public sealed record ScopeAction
     public override string ToString() => _name;
 
     public static implicit operator string(ScopeAction type) => type._name;
+
     public static implicit operator ScopeAction(string type) => new(type);
 }

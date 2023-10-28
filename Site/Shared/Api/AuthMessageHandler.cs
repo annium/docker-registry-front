@@ -35,7 +35,10 @@ public class AuthMessageHandler : DelegatingHandler
         _service = config.Registry.Auth.Service;
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request,
+        CancellationToken cancellationToken
+    )
     {
         // if scope passed in header and saved in tokens - set Authorization header
         if (request.PullScope(out var scope) && _tokensStore.TryGetToken(scope, out var token))
@@ -59,7 +62,10 @@ public class AuthMessageHandler : DelegatingHandler
 
         // request new token
         var authResponse = await _serverHttpClient
-            .SetAuthentication(_credentialsHelper.AuthScheme, _credentialsHelper.Encode(credentials.User, credentials.Password))
+            .SetAuthentication(
+                _credentialsHelper.AuthScheme,
+                _credentialsHelper.Encode(credentials.User, credentials.Password)
+            )
             .GetAsync("v2/token")
             .WithArgument("account", credentials.User)
             .WithArgument("service", _service)
@@ -79,8 +85,9 @@ public class AuthMessageHandler : DelegatingHandler
 
     private static bool ParseAuthenticationScope(HttpResponseHeaders headers, out string scope)
     {
-        var authentication = headers.WwwAuthenticate.Single().Parameter!
-            .Split(',')
+        var authentication = headers.WwwAuthenticate
+            .Single()
+            .Parameter!.Split(',')
             .Select(x => x.Split('=').Select(y => y.Trim('"')).ToArray())
             .ToDictionary(x => x[0], x => x[1]);
 

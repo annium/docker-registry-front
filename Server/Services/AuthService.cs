@@ -20,19 +20,20 @@ internal class AuthService : IAuthService
     private readonly HashAlgorithm _hashAlgorithm = SHA512.Create();
     private readonly IReadOnlyDictionary<string, UserConfig> _users;
 
-    public AuthService(
-        Configuration config,
-        ILogger<AuthService> logger
-    )
+    public AuthService(Configuration config, ILogger<AuthService> logger)
     {
         _users = config.Users.ToDictionary(
             x => x.Key,
-            x => new UserConfig(x.Value.Password,
-                x.Value.Repositories.ToDictionary(
-                    y => (ScopeName) y.Key,
-                    y => y.Value.Select(z => (ScopeAction) z).Where(ScopeAction.IsKnown).ToArray() as IReadOnlyCollection<ScopeAction>
+            x =>
+                new UserConfig(
+                    x.Value.Password,
+                    x.Value.Repositories.ToDictionary(
+                        y => (ScopeName)y.Key,
+                        y =>
+                            y.Value.Select(z => (ScopeAction)z).Where(ScopeAction.IsKnown).ToArray()
+                            as IReadOnlyCollection<ScopeAction>
+                    )
                 )
-            )
         );
         _logger = logger;
     }
@@ -56,7 +57,8 @@ internal class AuthService : IAuthService
         {
             if (
                 // repository is specified explicitly
-                cfg.Repositories.TryGetValue(scope.Name, out var allowedActions) ||
+                cfg.Repositories.TryGetValue(scope.Name, out var allowedActions)
+                ||
                 // all repositories access is specified
                 cfg.Repositories.TryGetValue(ScopeName.Any, out allowedActions)
             )

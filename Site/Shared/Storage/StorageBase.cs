@@ -12,12 +12,9 @@ public class StorageBase
 
     private readonly string _storage;
 
-    protected StorageBase(
-        IJSRuntime js,
-        string storage
-    )
+    protected StorageBase(IJSRuntime js, string storage)
     {
-        _js = (IJSInProcessRuntime) js;
+        _js = (IJSInProcessRuntime)js;
         _storage = storage;
     }
 
@@ -28,9 +25,7 @@ public class StorageBase
         if (length == 0)
             return Array.Empty<string>();
 
-        var keys = Enumerable.Range(0, length)
-            .Select(i => _js.Invoke<string>($"{_storage}.key", i))
-            .ToArray();
+        var keys = Enumerable.Range(0, length).Select(i => _js.Invoke<string>($"{_storage}.key", i)).ToArray();
 
         return keys;
     }

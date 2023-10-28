@@ -21,18 +21,17 @@ internal static class ServicePack
         services.AddSingleton<ITokenWriter, TokenWriter>();
 
         // configuration
-        services.AddSingleton(JsonSerializer.Deserialize<Configuration>(
-            File.ReadAllText("config.json"),
-            new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }
-        )!);
+        services.AddSingleton(
+            JsonSerializer.Deserialize<Configuration>(
+                File.ReadAllText("config.json"),
+                new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }
+            )!
+        );
     }
 
     public static void Setup(this IServiceProvider provider)
     {
-        // request token writer to ensure private key is present and valid 
+        // request token writer to ensure private key is present and valid
         provider.GetRequiredService<ITokenWriter>();
     }
 }
