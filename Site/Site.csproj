@@ -12,9 +12,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AntDesign" Version="0.15.5" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" />
+        <PackageReference Include="AntDesign" Version="0.16.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
         <PackageReference Include="Nito.AsyncEx.Coordination" Version="5.1.2" />
         <PackageReference Include="Pathoschild.Http.FluentClient" Version="4.3.0" />
