@@ -13,7 +13,7 @@ clean:
 	xs clean -sc -ic
 
 build:
-	dotnet build --nologo -v q
+	dotnet build -c Release --nologo -v q
 
 test:
 	@echo "noop"
