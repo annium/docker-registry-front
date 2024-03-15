@@ -13,9 +13,9 @@ public interface IScopeReader
 
 internal class ScopeReader : IScopeReader
 {
-    private readonly ILogger<CredentialsReader> _logger;
+    private readonly ILogger<ScopeReader> _logger;
 
-    public ScopeReader(ILogger<CredentialsReader> logger)
+    public ScopeReader(ILogger<ScopeReader> logger)
     {
         _logger = logger;
     }
