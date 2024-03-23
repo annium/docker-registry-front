@@ -36,15 +36,12 @@ internal class TokenWriter : ITokenWriter
         var header = new JwtHeader(new SigningCredentials(_signingKey, SecurityAlgorithms.RsaSha256));
 
         var accessesList = accesses
-            .Select(
-                x =>
-                    new
-                    {
-                        type = x.Type.ToString(),
-                        name = x.Name.ToString(),
-                        actions = x.Actions.Select(y => y.ToString()).ToArray()
-                    }
-            )
+            .Select(x => new
+            {
+                type = x.Type.ToString(),
+                name = x.Name.ToString(),
+                actions = x.Actions.Select(y => y.ToString()).ToArray()
+            })
             .ToArray();
 
         var claims = new List<Claim>

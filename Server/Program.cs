@@ -15,13 +15,12 @@ var app = builder.Build();
 
 app.Services.Setup();
 app.UseRouting();
-app.UseCors(
-    b =>
-        b.SetIsOriginAllowed(_ => true)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            .SetPreflightMaxAge(TimeSpan.FromDays(7))
+app.UseCors(b =>
+    b.SetIsOriginAllowed(_ => true)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .SetPreflightMaxAge(TimeSpan.FromDays(7))
 );
 app.MapControllers();
 

@@ -24,16 +24,15 @@ internal class AuthService : IAuthService
     {
         _users = config.Users.ToDictionary(
             x => x.Key,
-            x =>
-                new UserConfig(
-                    x.Value.Password,
-                    x.Value.Repositories.ToDictionary(
-                        y => (ScopeName)y.Key,
-                        y =>
-                            y.Value.Select(z => (ScopeAction)z).Where(ScopeAction.IsKnown).ToArray()
-                            as IReadOnlyCollection<ScopeAction>
-                    )
+            x => new UserConfig(
+                x.Value.Password,
+                x.Value.Repositories.ToDictionary(
+                    y => (ScopeName)y.Key,
+                    y =>
+                        y.Value.Select(z => (ScopeAction)z).Where(ScopeAction.IsKnown).ToArray()
+                        as IReadOnlyCollection<ScopeAction>
                 )
+            )
         );
         _logger = logger;
     }

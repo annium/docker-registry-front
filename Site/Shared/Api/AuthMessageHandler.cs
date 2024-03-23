@@ -85,8 +85,8 @@ public class AuthMessageHandler : DelegatingHandler
 
     private static bool ParseAuthenticationScope(HttpResponseHeaders headers, out string scope)
     {
-        var authentication = headers.WwwAuthenticate
-            .Single()
+        var authentication = headers
+            .WwwAuthenticate.Single()
             .Parameter!.Split(',')
             .Select(x => x.Split('=').Select(y => y.Trim('"')).ToArray())
             .ToDictionary(x => x[0], x => x[1]);
