@@ -17,7 +17,6 @@ public interface IAuthService
 internal class AuthService : IAuthService
 {
     private readonly ILogger<AuthService> _logger;
-    private readonly HashAlgorithm _hashAlgorithm = SHA512.Create();
     private readonly IReadOnlyDictionary<string, UserConfig> _users;
 
     public AuthService(Configuration config, ILogger<AuthService> logger)
@@ -76,11 +75,9 @@ internal class AuthService : IAuthService
         if (!_users.TryGetValue(user, out var config))
             return null;
 
-        var passHash = Convert.ToHexString(_hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(pass))).ToLowerInvariant();
-        if (passHash != config.Password)
-            return null;
-
-        return config;
+        using var sha512 = SHA512.Create();
+        var passHash = Convert.ToHexString(sha512.ComputeHash(Encoding.UTF8.GetBytes(pass))).ToLowerInvariant();
+        return passHash == config.Password ? config : null;
     }
 
     private record UserConfig(
