@@ -4,7 +4,7 @@
 @layout Layout
 
 <div class="h-full flex flex-row items-center justify-center">
-    <Space Direction="@DirectionVHType.Vertical" class="pt-4 px-4 pb-2 rounded-lg bg-gray-100">
+    <Space Direction="@SpaceDirection.Vertical" class="pt-4 px-4 pb-2 rounded-lg bg-gray-100">
         <SpaceItem>
             <Input
                 @bind-Value="@User"
@@ -17,13 +17,13 @@
                 @bind-Value="@Password"
                 Placeholder="password"
                 Disabled="@_isLoading"
-                OnPressEnter="Submit" />
+                OnPressEnter="SubmitAsync" />
         </SpaceItem>
         <SpaceItem>
             <Button
                 Type="@ButtonType.Primary"
                 Loading="@_isLoading"
-                OnClick="@Submit">
+                OnClick="@SubmitAsync">
                 Log in
             </Button>
         </SpaceItem>

@@ -1,10 +1,12 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine as builder
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS builder
 COPY . /src
 RUN dotnet publish -c release -o /app /src
 
-FROM node:16-alpine as node_builder
+FROM node:16-alpine AS node_builder
 COPY . /src
-RUN cd /src && npx tailwindcss -i app.css -o wwwroot/app.css --minify
+WORKDIR /src
+RUN npm ci
+RUN npx tailwindcss -i app.css -o wwwroot/app.css --minify
 
 FROM nginx:alpine
 COPY --from=builder /app/wwwroot/ /usr/share/nginx/html/

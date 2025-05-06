@@ -14,7 +14,7 @@ namespace Server.Services;
 
 public interface ITokenWriter
 {
-    public string WriteToken(string service, string account, IReadOnlyCollection<AccessScope> accesses);
+    string WriteToken(string service, string account, IReadOnlyCollection<AccessScope> accesses);
 }
 
 internal class TokenWriter : ITokenWriter

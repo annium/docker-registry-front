@@ -8,7 +8,7 @@ namespace Server.Services;
 
 public interface ICredentialsReader
 {
-    public Credentials? Read(HttpRequest request);
+    Credentials? Read(HttpRequest request);
 }
 
 internal class CredentialsReader : ICredentialsReader

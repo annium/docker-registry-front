@@ -1,16 +1,16 @@
 format:
-	xs format -sc -ic
+	xx format -sc -ic
 	dotnet csharpier .
 
 setup:
-	xs remote restore -user $(user) -password $(pass)
+	xx remote restore -user $(user) -password $(pass)
 	dotnet tool restore
 
 update:
-	xs update all -sc -ic
+	xx update all -sc -ic
 
 clean:
-	xs clean -sc -ic
+	xx clean -sc -ic
 
 build:
 	dotnet build -c Release --nologo -v q

@@ -13,7 +13,7 @@ namespace Site;
 
 public static class Services
 {
-    public static async Task Configure(this WebAssemblyHostBuilder builder)
+    public static async Task ConfigureAsync(this WebAssemblyHostBuilder builder)
     {
         var http = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
         var config =

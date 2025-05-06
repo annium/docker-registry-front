@@ -8,7 +8,7 @@ namespace Server.Services;
 
 public interface IScopeReader
 {
-    public AccessScope? Read(string scope);
+    AccessScope? Read(string scope);
 }
 
 internal class ScopeReader : IScopeReader

@@ -3,7 +3,7 @@ using Site;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>(nameof(App));
-await builder.Configure();
+await builder.ConfigureAsync();
 builder.Services.Register();
 var app = builder.Build();
 app.Services.Setup();

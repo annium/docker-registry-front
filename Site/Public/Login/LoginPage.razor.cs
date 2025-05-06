@@ -20,7 +20,7 @@ public partial class LoginPage
     private string Password { get; set; } = string.Empty;
     private bool _isLoading;
 
-    private async Task Submit()
+    private async Task SubmitAsync()
     {
         _isLoading = true;
         StateHasChanged();

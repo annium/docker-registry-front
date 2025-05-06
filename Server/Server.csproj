@@ -1,18 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <PackageId>Server</PackageId>
-        <PackageVersion>0.1.0</PackageVersion>
-        <Description>Server</Description>
         <Solutions>Docker.Registry.Front</Solutions>
-        <TargetFramework>net8.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <DebugType>portable</DebugType>
-        <WarningsAsErrors>true</WarningsAsErrors>
         <IsPackable>false</IsPackable>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SimpleBase" Version="4.0.0" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
+        <PackageReference Include="SimpleBase" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
     </ItemGroup>
 </Project>
