@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-    <PropertyGroup>
-        <Solutions>Docker.Registry.Front</Solutions>
-        <OutputType>Exe</OutputType>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="SimpleBase" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-    </ItemGroup>
+  <PropertyGroup>
+    <Solutions>Docker.Registry.Front</Solutions>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SimpleBase" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+  </ItemGroup>
 </Project>

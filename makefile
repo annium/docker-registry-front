@@ -1,19 +1,24 @@
-format:
-	xx format -sc -ic
-	dotnet csharpier .
-
 setup:
-	xx remote restore -user $(user) -password $(pass)
 	dotnet tool restore
+
+format:
+	dotnet csharpier format .
+	xx format -sc -ic
+
+format-full: format
+	dotnet format style
+	dotnet format analyzers
 
 update:
 	xx update all -sc -ic
 
 clean:
 	xx clean -sc -ic
+	find . -type f -name '*.nupkg' | xargs rm
 
+buildNumber?=0
 build:
-	dotnet build -c Release --nologo -v q
+	dotnet build -c Release --nologo -v q -p:BuildNumber=$(buildNumber)
 
 test:
 	@echo "noop"
@@ -52,9 +57,9 @@ publish-site: build-site
 	docker push annium/docker-registry-site
 
 build-server:
-	docker build -t annium/docker-registry-server -f Server/app.dockerfile Server
+	docker build -t annium/docker-registry-server -f Server/app.dockerfile .
 
 build-site:
-	docker build -t annium/docker-registry-site -f Site/app.dockerfile Site
+	docker build -t annium/docker-registry-site -f Site/app.dockerfile .
 
 .PHONY: $(MAKECMDGOALS)

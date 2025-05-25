@@ -1,7 +1,6 @@
 # editors
 .idea/
 *.DotSettings.user
-.vs/
 
 # artifacts
 /logs*/

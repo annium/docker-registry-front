@@ -60,7 +60,7 @@ public partial class RepositoriesPage
         _isTagsTableLoading = true;
         StateHasChanged();
 
-        var warning = Message.Warning($"Deleting image {repository.Name}:{tag.Name}...", 2);
+        var warning = Message.WarningAsync($"Deleting image {repository.Name}:{tag.Name}...", 2);
         var result = await Api.DeleteTagAsync(repository.Name, tag.Digest);
         await warning;
 
@@ -70,13 +70,13 @@ public partial class RepositoriesPage
             _isTagsTableLoading = false;
 
             StateHasChanged();
-            await Message.Success($"Deleted image {repository.Name}:{tag.Name}", 2);
+            await Message.SuccessAsync($"Deleted image {repository.Name}:{tag.Name}", 2);
         }
         else
         {
             _isTagsTableLoading = false;
             StateHasChanged();
-            await Message.Error($"Failed to delete image {repository.Name}:{tag.Name}", 2);
+            await Message.ErrorAsync($"Failed to delete image {repository.Name}:{tag.Name}", 2);
         }
     }
 }

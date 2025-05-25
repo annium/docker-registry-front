@@ -33,6 +33,6 @@ public partial class LoginPage
         if (result)
             Navigation.NavigateTo(Routes.Repositories);
         else
-            await Message.Error("Incorrect login os password", 1);
+            await Message.ErrorAsync("Incorrect login os password", 1);
     }
 }

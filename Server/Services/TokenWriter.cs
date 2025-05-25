@@ -40,7 +40,7 @@ internal class TokenWriter : ITokenWriter
             {
                 type = x.Type.ToString(),
                 name = x.Name.ToString(),
-                actions = x.Actions.Select(y => y.ToString()).ToArray()
+                actions = x.Actions.Select(y => y.ToString()).ToArray(),
             })
             .ToArray();
 
