@@ -1,0 +1,10 @@
+# root
+/.idea
+/run
+/.gitignore
+/docker-compose.yml
+/makefile
+
+# artifacts
+**/bin/
+**/obj/
