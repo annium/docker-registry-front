@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS builder
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
 COPY . /src
 RUN dotnet publish -c release -o /app /src/Site
 
-FROM node:20-alpine AS node_builder
+FROM node:20 AS node_builder
 COPY . /src
 WORKDIR /src/Site
 RUN npm ci
