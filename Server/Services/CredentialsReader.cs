@@ -25,7 +25,10 @@ internal class CredentialsReader : ICredentialsReader
         try
         {
             var authorization = request.Headers.Authorization.ToString().Split(' ');
-            if (authorization.Length != 2 || authorization[0].ToLowerInvariant() != "basic")
+            if (
+                authorization.Length != 2
+                || !authorization[0].Equals("basic", StringComparison.InvariantCultureIgnoreCase)
+            )
                 return null;
 
             var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(authorization[1])).Split(':');

@@ -37,19 +37,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetToken(string account, string service, string scope)
+    public IActionResult GetToken(string service, string scope)
     {
-        _logger.LogInformation(
-            "Get account={Account} token for service={Service} in scope={Scope}",
-            account,
-            service,
-            scope
-        );
-        if (string.IsNullOrWhiteSpace(account))
-        {
-            _logger.LogWarning("Account is not specified");
-            return BadRequest("Account must be specified");
-        }
+        _logger.LogInformation("Get token for service={Service} in scope={Scope}", service, scope);
 
         if (string.IsNullOrWhiteSpace(service) || service != _config.Auth.Service)
         {
@@ -66,16 +56,6 @@ public class AuthController : ControllerBase
         {
             _logger.LogWarning("Failed to read credentials from request");
             return Unauthorized();
-        }
-
-        if (account != credentials.Login)
-        {
-            _logger.LogInformation(
-                "Account={Account} doesn't match credentials login={Login}",
-                account,
-                credentials.Login
-            );
-            return BadRequest("Account must match login in credentials");
         }
 
         var accesses = new List<AccessScope>();
@@ -104,10 +84,10 @@ public class AuthController : ControllerBase
             accesses.Add(accessScope with { Actions = allowedActions });
         }
 
-        var token = _tokenWriter.WriteToken(service, account, accesses);
+        var token = _tokenWriter.WriteToken(service, credentials.Login, accesses);
         _logger.LogInformation(
-            "Granted access to account={Account} token for service={Service} in scope={Scope}. Access scopes: {Accesses}. Token: {Token}",
-            account,
+            "Granted access to login={Login} token for service={Service} in scope={Scope}. Access scopes: {Accesses}. Token: {Token}",
+            credentials.Login,
             service,
             scope,
             string.Join(", ", accesses.Select(x => x.ToString())),
