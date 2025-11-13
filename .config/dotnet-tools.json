@@ -3,21 +3,21 @@
   "isRoot": true,
   "tools": {
     "annium.versioning": {
-      "version": "1.1.11",
+      "version": "1.1.13",
       "commands": [
         "versioning"
       ],
       "rollForward": false
     },
     "annium.xs.cli": {
-      "version": "1.1.8",
+      "version": "1.1.12",
       "commands": [
         "xs"
       ],
       "rollForward": false
     },
     "csharpier": {
-      "version": "1.1.2",
+      "version": "1.2.1",
       "commands": [
         "csharpier"
       ],
